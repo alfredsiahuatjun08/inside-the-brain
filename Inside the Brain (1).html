@@ -1,0 +1,1167 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Inside the Brain</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: a field-guide style study site. Resources come first (sources, evaluation, APA, glossary),
+   then notes, six case-investigation missions with interactive diagrams, a quiz hub, and the project plan. */
+:root{
+  --bg:#F1F5F7; --surface:#FFFFFF; --surface2:#E8EEF1; --ink:#10202B; --muted:#4D606C; --line:#D2DCE2;
+  --accent:#0A7184; --accent-ink:#FFFFFF; --accent-soft:#DAEFF2;
+  --cns:#0A7184; --pns:#3A6FD0; --pns-soft:#E0E9FA;
+  --warn:#B25B09; --warn-soft:#FBEAD2;
+  --good:#1D7A4A; --good-soft:#DAF2E4; --bad:#B3261E; --bad-soft:#F8DFDC;
+  --nav:#F1F5F7;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B151C; --surface:#122029; --surface2:#182A35; --ink:#E5EEF2; --muted:#9AAEBA; --line:#243844;
+  --accent:#4DC4D8; --accent-ink:#04202A; --accent-soft:#12343D;
+  --cns:#4DC4D8; --pns:#85A9F2; --pns-soft:#18284A;
+  --warn:#F0A64F; --warn-soft:#3A2A12;
+  --good:#5ED092; --good-soft:#12301F; --bad:#F28B82; --bad-soft:#3A1916;
+  --nav:#0B151C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B151C; --surface:#122029; --surface2:#182A35; --ink:#E5EEF2; --muted:#9AAEBA; --line:#243844;
+  --accent:#4DC4D8; --accent-ink:#04202A; --accent-soft:#12343D;
+  --cns:#4DC4D8; --pns:#85A9F2; --pns-soft:#18284A;
+  --warn:#F0A64F; --warn-soft:#3A2A12;
+  --good:#5ED092; --good-soft:#12301F; --bad:#F28B82; --bad-soft:#3A1916;
+  --nav:#0B151C; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--nav);z-index:30}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.15;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+a{color:var(--accent);text-underline-offset:3px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.mono{font-family:var(--f-mono)}
+.eyebrow{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--nav);border-bottom:1px solid var(--line);
+  margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.bar{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;padding-block:10px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:1.15rem;display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none}
+.brand svg{width:26px;height:26px;flex:none}
+.nav{display:flex;gap:4px;overflow-x:auto;flex:1 1 360px;min-width:0;scrollbar-width:thin}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:600;font-size:.92rem;padding:6px 12px;border-radius:999px}
+.nav a:hover{color:var(--ink);background:var(--surface2)}
+.nav a.on{background:var(--accent);color:var(--accent-ink)}
+.prog{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.78rem;color:var(--muted);margin-left:auto}
+.prog .track{width:84px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.prog .fill{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
+
+/* hero */
+.hero{padding-block:44px 28px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr);gap:28px;align-items:center}
+.hero h1{font-size:clamp(2.3rem,6vw,3.9rem);font-weight:800}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:52ch;margin-top:14px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 16px;border-radius:10px;font-weight:600;cursor:pointer;text-decoration:none;font-size:.95rem}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.sm{padding:6px 11px;font-size:.85rem;border-radius:8px}
+.hero-art{width:100%;max-width:380px;justify-self:center}
+.where{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.where a{font-size:.85rem;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:5px 12px;border-radius:999px}
+.where a:hover{border-color:var(--accent)}
+
+/* sections */
+section.part{padding-block:44px 8px;scroll-margin-top:96px}
+.part-head{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;padding-top:26px;border-top:2px solid var(--ink)}
+.part-head h2{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800}
+.part-head p{color:var(--muted);max-width:68ch}
+h3.sub{font-size:1.3rem;margin:34px 0 12px;font-weight:700}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent);font-weight:500}
+.tag.pns{background:var(--pns-soft);color:var(--pns)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.85rem;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface2)}
+
+/* source cards */
+.src{display:flex;flex-direction:column;gap:10px;min-width:0}
+.src h3{font-size:1.2rem}
+.src .pub{color:var(--muted);font-size:.9rem}
+.src .use{font-size:.92rem}
+.src .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
+
+/* tables */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.95rem}
+th,td{text-align:left;padding:12px 14px;vertical-align:top;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--surface2);font-weight:500}
+tr:last-child td{border-bottom:0}
+
+/* APA */
+.apa{display:flex;flex-direction:column;gap:12px}
+.ref{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.ref .txt{flex:1 1 360px;min-width:0;padding-left:2.2rem;text-indent:-2.2rem;overflow-wrap:anywhere}
+.ref .txt a{word-break:break-all}
+
+/* glossary */
+.gtools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.gtools input{flex:1 1 240px;min-width:0;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit}
+.gl{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.gl .term{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.gl dt{font-family:var(--f-display);font-weight:700}
+.gl dd{margin:4px 0 0;color:var(--muted);font-size:.93rem}
+.gl dl{margin:0}
+
+/* notes */
+.note h3{font-size:1.1rem;margin-bottom:8px}
+.note ul{margin:0;padding-left:1.1rem;display:grid;gap:4px;font-size:.95rem}
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.flow .step{flex:1 1 180px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0}
+.flow .arrow{align-self:center;font-family:var(--f-mono);color:var(--muted)}
+
+/* missions */
+.mission{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vw,28px);scroll-margin-top:96px}
+.mission header{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.mission h3{font-size:clamp(1.4rem,3.2vw,1.9rem);font-weight:800}
+.mission .srcline{font-size:.88rem;color:var(--muted)}
+.mpills{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.mpills a{text-decoration:none;font-size:.88rem;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.mpills a:hover{border-color:var(--accent)}
+.lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:16px;align-items:start}
+.stage{background:var(--surface2);border-radius:14px;padding:12px;min-width:0}
+.stage svg{width:100%;height:auto;display:block;max-height:520px}
+.info{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:18px;min-height:220px;min-width:0}
+.info h4{font-size:1.3rem;margin:8px 0}
+.info .fact{margin-top:12px;padding:10px 12px;background:var(--accent-soft);border-radius:10px;font-size:.92rem}
+.hint{color:var(--muted);font-size:.9rem;margin-top:8px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;margin-top:10px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* svg styling */
+svg .outline{fill:none;stroke:var(--line);stroke-width:2}
+svg .hit{fill:none;stroke:transparent;stroke-width:22;pointer-events:stroke}
+svg .hs{cursor:pointer}
+svg .hs:focus-visible{outline:none}
+svg .hs:focus-visible .ring,svg .hs.on .ring{opacity:1}
+svg .ring{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-dasharray:5 4;opacity:0}
+svg .brain{fill:var(--cns);fill-opacity:.28;stroke:var(--cns);stroke-width:3}
+svg .fold{fill:none;stroke:var(--cns);stroke-width:2.2;stroke-linecap:round}
+svg .cord{stroke:var(--cns);stroke-width:9;stroke-linecap:round}
+svg .nerve{fill:none;stroke:var(--pns);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+svg .hs:hover .brain,svg .hs.on .brain{fill-opacity:.5}
+svg .hs:hover .nerve,svg .hs.on .nerve{stroke-width:5.5}
+svg .hs:hover .cord,svg .hs.on .cord{stroke-width:12}
+svg text{font-family:var(--f-mono);font-size:12px;fill:var(--muted);pointer-events:none}
+svg text.strong{fill:var(--ink);font-weight:500}
+svg .soma{fill:var(--accent-soft);stroke:var(--cns);stroke-width:3}
+svg .nuc{fill:var(--cns);fill-opacity:.55}
+svg .dend{fill:none;stroke:var(--pns);stroke-width:4;stroke-linecap:round}
+svg .axon{fill:none;stroke:var(--cns);stroke-width:7;stroke-linecap:round}
+svg .term{fill:none;stroke:var(--warn);stroke-width:4;stroke-linecap:round}
+svg .bulb{fill:var(--warn)}
+svg .hs:hover .dend,svg .hs.on .dend{stroke-width:6}
+svg .hs:hover .axon,svg .hs.on .axon{stroke-width:10}
+svg .hs:hover .term,svg .hs.on .term{stroke-width:6}
+svg .hs:hover .soma,svg .hs.on .soma{stroke-width:5}
+svg .pulse{fill:var(--warn);stroke:var(--surface);stroke-width:2;opacity:0}
+svg .pulse.go{animation:pulse 2.4s ease-in-out 1 forwards}
+@keyframes pulse{0%{transform:translateX(0);opacity:1}92%{opacity:1}100%{transform:translateX(298px);opacity:0}}
+svg .membrane{fill:var(--surface);stroke:var(--line);stroke-width:2.5}
+svg .ves{fill:var(--accent-soft);stroke:var(--cns);stroke-width:2}
+svg .nt{fill:var(--cns);stroke:var(--surface);stroke-width:1.5}
+svg .nt.fl{animation:drift 3s ease-in infinite}
+@keyframes drift{0%{transform:translateX(0);opacity:0}12%{opacity:1}85%{opacity:1}100%{transform:translateX(98px);opacity:0}}
+svg .drug{fill:var(--warn);stroke:var(--surface);stroke-width:1.5}
+svg .rec{fill:var(--surface);stroke:var(--pns);stroke-width:3}
+svg .rec.bnd{fill:var(--cns)}
+svg .rec.bndd{fill:var(--warn);stroke:var(--warn)}
+svg .trans{fill:var(--surface2);stroke:var(--muted);stroke-width:2}
+svg .block{stroke:var(--bad);stroke-width:4;stroke-linecap:round}
+svg .recyc{fill:none;stroke:var(--good);stroke-width:2.5;stroke-linecap:round}
+.modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.modes button,.seg button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600;font-size:.9rem}
+.modes button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.partbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.partbtns button{padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:.88rem}
+.partbtns button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.result{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--surface2);font-size:.95rem}
+.result.warn{background:var(--warn-soft)}
+.result.good{background:var(--good-soft)}
+
+/* ordering */
+.order{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:10px}
+.order h4{font-size:.8rem;font-family:var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:500}
+.slot{display:flex;flex-direction:column;gap:8px;min-height:60px}
+.stepbtn{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;width:100%}
+.stepbtn:hover{border-color:var(--accent)}
+.stepbtn .n{font-family:var(--f-mono);font-weight:500;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none;font-size:.8rem}
+.stepbtn.ok{border-color:var(--good);background:var(--good-soft)}
+.stepbtn.no{border-color:var(--bad);background:var(--bad-soft)}
+.empty{border:2px dashed var(--line);border-radius:10px;padding:14px;color:var(--muted);font-size:.9rem}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+
+/* drug cards */
+.dcard{display:flex;flex-direction:column;gap:10px;min-width:0}
+.dcard h4{font-size:1.15rem}
+.meter{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.75rem;color:var(--muted)}
+.meter .m{flex:1;height:8px;border-radius:4px;background:var(--line);position:relative;overflow:hidden}
+.meter .m b{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:4px}
+.meter .m.dn b{background:var(--pns)}
+.meter .m.var b{background:var(--warn)}
+.dcard dl{margin:0;display:grid;gap:8px;font-size:.92rem}
+.dcard dt{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.dcard dd{margin:0}
+
+/* matching */
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:14px 20px}
+.match .col{display:flex;flex-direction:column;gap:8px}
+.mbtn{text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.mbtn:hover{border-color:var(--accent)}
+.mbtn.sel{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 2px var(--accent)}
+.mbtn.done{border-color:var(--good);background:var(--good-soft);cursor:default}
+.mbtn.bad{border-color:var(--bad);background:var(--bad-soft)}
+
+/* case */
+.casefile{background:var(--warn-soft);border-radius:14px;padding:18px;border:1px dashed var(--warn)}
+.casefile .eyebrow{color:var(--warn)}
+.clues{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.clues span{background:var(--surface);border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:.88rem}
+.choices{display:grid;gap:8px;margin-top:14px}
+.choice{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);cursor:pointer}
+.choice input{margin-top:5px;accent-color:var(--accent)}
+.choice:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+textarea{width:100%;min-height:90px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;resize:vertical;margin-top:8px}
+label.l{font-weight:600;display:block;margin-top:14px}
+
+/* steps infographic */
+.stairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;align-items:end}
+.stair{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.stair:nth-child(1){min-height:150px}.stair:nth-child(2){min-height:180px}.stair:nth-child(3){min-height:210px}.stair:nth-child(4){min-height:240px;border-color:var(--warn)}
+.stair h4{font-size:1.05rem}
+.stair p{font-size:.9rem;color:var(--muted)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:10px}
+.bars div{flex:1;background:var(--warn);border-radius:6px 6px 0 0;position:relative;min-width:0;transform-origin:bottom;animation:grow .9s ease both}
+.bars div span{position:absolute;top:100%;left:0;right:0;text-align:center;font-family:var(--f-mono);font-size:.68rem;color:var(--muted);padding-top:3px}
+@keyframes grow{from{transform:scaleY(.1)}to{transform:scaleY(1)}}
+
+/* quizzes */
+.qlist{display:grid;gap:14px}
+.q{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--surface)}
+.q.is-right{border-color:var(--good)}
+.q.is-wrong{border-color:var(--bad)}
+.qmeta{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.qnum{font-family:var(--f-mono);font-weight:500;background:var(--ink);color:var(--bg);border-radius:6px;padding:1px 8px;font-size:.78rem}
+.qtype{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.qtext{font-weight:600;font-size:1.02rem}
+.opts{display:grid;gap:8px;margin-top:12px}
+.opts.tf{grid-template-columns:1fr 1fr}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .ol{font-family:var(--f-mono);font-weight:500;width:1.5rem;height:1.5rem;border-radius:6px;background:var(--surface2);display:grid;place-items:center;flex:none;font-size:.8rem}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt:disabled{cursor:default}
+.fb{margin-top:10px;font-size:.93rem;color:var(--muted)}
+.fb strong{color:var(--ink)}
+.q.is-right .fb strong{color:var(--good)}
+.q.is-wrong .fb strong{color:var(--bad)}
+.qsum{margin-top:14px;padding:16px;border-radius:12px;background:var(--accent-soft);display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.qsum b{font-family:var(--f-display);font-size:1.4rem}
+.check{margin-top:20px}
+.check > h4{font-size:1.05rem;margin-bottom:10px;display:flex;gap:10px;align-items:center}
+
+/* flashcards */
+.fc{max-width:560px;margin:0 auto}
+.fcard{width:100%;min-height:220px;border-radius:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;padding:24px;display:grid;place-items:center;text-align:center;perspective:800px}
+.fcard .face{font-family:var(--f-display);font-size:1.7rem;font-weight:700}
+.fcard .face.back{font-family:var(--f-body);font-size:1.1rem;font-weight:400;line-height:1.5}
+.fcard.flip{background:var(--accent-soft);border-color:var(--accent)}
+.fcount{text-align:center;color:var(--muted);font-family:var(--f-mono);font-size:.8rem;margin-bottom:10px}
+
+/* plan */
+details.ol{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0 16px}
+details.ol + details.ol{margin-top:10px}
+details.ol summary{cursor:pointer;padding:14px 0;font-weight:700;font-family:var(--f-display);font-size:1.05rem}
+details.ol .body{padding:0 0 16px;display:grid;gap:8px;font-size:.95rem}
+.sitemap{display:grid;gap:8px;font-size:.92rem}
+.sitemap .home{background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:10px;font-weight:700}
+.sitemap .kids{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:8px;padding-left:14px;border-left:3px solid var(--line)}
+.sitemap .kids div{background:var(--surface);border:1px solid var(--line);padding:8px 12px;border-radius:8px}
+footer{padding-block:40px 60px;margin-top:40px;border-top:2px solid var(--ink);color:var(--muted);font-size:.9rem;display:grid;gap:10px}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr;padding-top:28px}
+  .hero-art{max-width:240px}
+  .lab,.order,.match{grid-template-columns:1fr}
+  .opts.tf{grid-template-columns:1fr 1fr}
+  .prog{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+  svg .pulse.go{opacity:1}
+}
+</style>
+
+<div class="top"><div class="bar">
+  <a class="brand" href="#top" data-go="top"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="9" cy="9" r="4" fill="var(--accent)"/><circle cx="23" cy="12" r="3" fill="var(--warn)"/><circle cx="14" cy="24" r="4.5" fill="var(--pns)"/><path d="M9 9 23 12M9 9l5 15M23 12 14 24" stroke="var(--ink)" stroke-width="1.6" fill="none"/></svg>Inside the Brain</a>
+  <nav class="nav" aria-label="Sections">
+    <a href="#resources" data-go="resources">Sources</a>
+    <a href="#glossary" data-go="glossary">Glossary</a>
+    <a href="#notes" data-go="notes">Study notes</a>
+    <a href="#missions" data-go="missions">Missions</a>
+    <a href="#challenge" data-go="challenge">Quizzes</a>
+    <a href="#plan" data-go="plan">Project plan</a>
+  </nav>
+  <div class="prog" title="Activities you have finished"><span>Done</span><span class="track"><span class="fill" id="progFill"></span></span><span id="progText">0 / 0</span></div>
+</div></div>
+
+<main class="wrap" id="top">
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="eyebrow">Human nervous system · Effects of drugs</div>
+    <h1>Inside the <em>Brain</em></h1>
+    <p class="lead">A study site for learners. Start with the credible sources, then follow six short missions to find out how the nervous system sends messages and how drugs can change them.</p>
+    <div class="cta">
+      <a class="btn primary" href="#resources" data-go="resources">Open the source library</a>
+      <a class="btn" href="#missions" data-go="missions">Start the investigation</a>
+      <a class="btn" href="#challenge" data-go="challenge">Go to quizzes</a>
+    </div>
+    <div class="where" aria-label="Quick links">
+      <a href="#m1" data-go="m1">Mission 1 · Nervous system</a><a href="#m2" data-go="m2">Mission 2 · Neural message</a><a href="#m3" data-go="m3">Mission 3 · Drugs enter</a><a href="#m4" data-go="m4">Mission 4 · Drug effects</a><a href="#m5" data-go="m5">Mission 5 · The case</a><a href="#m6" data-go="m6">Mission 6 · Over time</a><a href="#final" data-go="final">Final · Brain Challenge</a>
+    </div>
+  </div>
+  <svg class="hero-art" viewBox="0 0 380 300" aria-hidden="true" role="presentation">
+    <g fill="none" stroke="var(--line)" stroke-width="2"><path d="M40 80 120 130 200 70 290 120 340 60"/><path d="M120 130 150 230 260 210 290 120"/><path d="M150 230 70 250M260 210 330 250M200 70 215 20"/></g>
+    <g stroke="var(--cns)" stroke-width="5" fill="none" stroke-linecap="round"><path d="M120 130 200 70"/><path d="M120 130 150 230"/></g>
+    <circle cx="40" cy="80" r="11" fill="var(--pns)"/><circle cx="120" cy="130" r="20" fill="var(--accent-soft)" stroke="var(--cns)" stroke-width="4"/><circle cx="120" cy="130" r="7" fill="var(--cns)"/>
+    <circle cx="200" cy="70" r="13" fill="var(--warn)"/><circle cx="290" cy="120" r="17" fill="var(--accent-soft)" stroke="var(--cns)" stroke-width="4"/><circle cx="340" cy="60" r="9" fill="var(--pns)"/>
+    <circle cx="150" cy="230" r="15" fill="var(--pns)"/><circle cx="260" cy="210" r="12" fill="var(--warn)"/><circle cx="70" cy="250" r="8" fill="var(--cns)"/><circle cx="330" cy="250" r="8" fill="var(--cns)"/><circle cx="215" cy="20" r="7" fill="var(--pns)"/>
+  </svg>
+</div>
+
+<!-- PART A -->
+<section class="part" id="resources">
+  <div class="part-head">
+    <span class="eyebrow">Part A · Resources</span>
+    <h2>Source library</h2>
+    <p>Three credible digital sources on the nervous system, neural communication and the effects of drugs on brain function. Every mission on this site is built from them. Open the originals to read further.</p>
+  </div>
+
+  <div class="grid g3">
+    <article class="card src">
+      <span class="tag">Government research agency</span>
+      <h3>Drugs and the Brain</h3>
+      <div class="pub">National Institute on Drug Abuse (NIDA), National Institutes of Health · 2020</div>
+      <p class="use">Research-based explanation of how drug use can change brain communication and behaviour.</p>
+      <div class="chips"><span class="chip">Missions 3</span><span class="chip">4</span><span class="chip">6</span></div>
+      <div class="acts"><a class="btn primary sm" href="https://nida.nih.gov/research-topics/drugs-brain" target="_blank" rel="noopener">Open source ↗</a></div>
+    </article>
+    <article class="card src">
+      <span class="tag pns">Peer-reviewed reference</span>
+      <h3>Physiology, Synapse</h3>
+      <div class="pub">Caire, Reddy &amp; Varacallo · StatPearls, NCBI Bookshelf (U.S. National Library of Medicine) · 2023</div>
+      <p class="use">Basic scientific explanation of synapses and communication between neurons.</p>
+      <div class="chips"><span class="chip">Missions 2</span><span class="chip">3</span></div>
+      <div class="acts"><a class="btn primary sm" href="https://www.ncbi.nlm.nih.gov/books/NBK526047/" target="_blank" rel="noopener">Open source ↗</a></div>
+    </article>
+    <article class="card src">
+      <span class="tag warn">Teaching resource</span>
+      <h3>Mind Matters: Teacher's Guide</h3>
+      <div class="pub">National Institute on Drug Abuse (NIDA), National Institutes of Health · 2022</div>
+      <p class="use">Student-friendly information about the effects of drugs on the brain and body, with ideas that can be adapted into learning activities.</p>
+      <div class="chips"><span class="chip">All missions</span><span class="chip">Quiz ideas</span></div>
+      <div class="acts">
+        <a class="btn primary sm" href="https://nida.nih.gov/research-topics/parents-educators/mind-matter-series/teachers-guide" target="_blank" rel="noopener">Open source ↗</a>
+        <a class="btn sm" href="https://nida.nih.gov/publications/mind-matters-series" target="_blank" rel="noopener">Mind Matters series ↗</a>
+      </div>
+    </article>
+  </div>
+
+  <h3 class="sub">Source evaluation</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Source</th><th>Credibility</th><th>Relevance</th></tr></thead>
+    <tbody>
+      <tr><td><b>National Institute on Drug Abuse (NIDA)</b><br><span class="hint">Drugs and the Brain</span></td><td>NIDA is part of the National Institutes of Health (NIH) and provides research-based information about drugs and the brain.</td><td>Helps explain how drug use can change brain communication and behaviour.</td></tr>
+      <tr><td><b>Caire et al. (2023)</b><br><span class="hint">Physiology, Synapse</span></td><td>A peer-reviewed medical reference available through the U.S. National Library of Medicine's NCBI Bookshelf.</td><td>Provides the basic scientific explanation of synapses and communication between neurons.</td></tr>
+      <tr><td><b>NIDA – Mind Matters</b><br><span class="hint">Teacher's Guide</span></td><td>NIDA provides educational materials designed to help learners understand the effects of drugs on the brain and body.</td><td>Provides student-friendly information and ideas that can be adapted into learning activities.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="sub">APA 7th edition references</h3>
+  <div class="card apa">
+    <div class="ref"><p class="txt" id="ref1">Caire, M. J., Reddy, V., &amp; Varacallo, M. A. (2023). Physiology, synapse. In <i>StatPearls</i>. StatPearls Publishing. <a href="https://www.ncbi.nlm.nih.gov/books/NBK526047/" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/books/NBK526047/</a></p><button class="btn sm" type="button" data-copy="ref1">Copy reference</button></div>
+    <div class="ref"><p class="txt" id="ref2">National Institute on Drug Abuse. (2020, July 6). <i>Drugs and the brain</i>. National Institutes of Health. <a href="https://nida.nih.gov/research-topics/drugs-brain" target="_blank" rel="noopener">https://nida.nih.gov/research-topics/drugs-brain</a></p><button class="btn sm" type="button" data-copy="ref2">Copy reference</button></div>
+    <div class="ref"><p class="txt" id="ref3">National Institute on Drug Abuse. (2022). <i>Mind matters: Teacher's guide</i>. National Institutes of Health. <a href="https://nida.nih.gov/research-topics/parents-educators/mind-matter-series/teachers-guide" target="_blank" rel="noopener">https://nida.nih.gov/research-topics/parents-educators/mind-matter-series/teachers-guide</a></p><button class="btn sm" type="button" data-copy="ref3">Copy reference</button></div>
+  </div>
+
+  <div class="check card" style="margin-top:22px">
+    <h4><span class="tag">Quiz</span> Source detective</h4>
+    <p class="hint" style="margin:0 0 12px">Practise judging digital sources before you use them.</p>
+    <div id="quiz-src"></div>
+  </div>
+</section>
+
+<section class="part" id="glossary">
+  <div class="part-head">
+    <span class="eyebrow">Part A · Resources</span>
+    <h2>Glossary</h2>
+    <p>Key terms used in the missions. Search by word or meaning. The same terms become flashcards in the quiz section.</p>
+  </div>
+  <div class="gtools"><input id="gsearch" type="search" placeholder="Search a term, e.g. synapse, tolerance" aria-label="Search glossary"><span class="chip" id="gcount" style="align-self:center"></span></div>
+  <div class="gl" id="gl"></div>
+</section>
+
+<!-- PART B -->
+<section class="part" id="notes">
+  <div class="part-head">
+    <span class="eyebrow">Part B · Study notes</span>
+    <h2>One-page summary</h2>
+    <p>Read this first for the big picture, then use the missions to test yourself.</p>
+  </div>
+  <div class="grid g4">
+    <div class="card note"><span class="tag">Mission 1</span><h3 style="margin-top:8px">The nervous system</h3><ul><li>CNS = brain + spinal cord</li><li>PNS = nerves connecting the CNS to the body</li><li>Together they communicate and coordinate</li></ul></div>
+    <div class="card note"><span class="tag">Mission 2</span><h3 style="margin-top:8px">Neural messages</h3><ul><li>Dendrites receive, axon carries</li><li>Neurotransmitters cross the synapse</li><li>Receptors on the next neuron receive them</li></ul></div>
+    <div class="card note"><span class="tag warn">Missions 3 and 4</span><h3 style="margin-top:8px">Drugs and neurotransmission</h3><ul><li>Drugs can interfere with neurotransmission and affect receptors</li><li>Stimulants generally increase activity, depressants generally reduce it</li><li>Opioids reduce pain, can dangerously slow breathing at high doses</li><li>Cannabis can affect memory, attention, coordination</li></ul></div>
+    <div class="card note"><span class="tag warn">Mission 6</span><h3 style="margin-top:8px">Over time</h3><ul><li>Tolerance: need more for the same effect</li><li>Dependence: the body adapts</li><li>Addiction: continued use despite harm</li><li>Learning, memory and behaviour can change</li></ul></div>
+  </div>
+
+  <h3 class="sub">Sense, process, respond</h3>
+  <div class="flow">
+    <div class="step"><span class="tag pns">PNS</span><p style="margin-top:6px"><b>Message in.</b> Nerves carry information from the eyes, skin and other senses toward the CNS.</p></div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <div class="step"><span class="tag">CNS</span><p style="margin-top:6px"><b>Process.</b> The brain and spinal cord interpret the information and decide what to do.</p></div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <div class="step"><span class="tag pns">PNS</span><p style="margin-top:6px"><b>Instruction out.</b> Nerves carry the instruction to muscles and organs, so the body responds.</p></div>
+  </div>
+
+  <h3 class="sub">Which source for which mission?</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Mission</th><th>Main idea</th><th>Start with</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Meet the Nervous System</td><td>CNS, PNS, brain, spinal cord, nerves</td><td>Mind Matters (student-friendly background)</td></tr>
+      <tr><td>2 · Follow the Neural Message</td><td>Neuron, synapse, neurotransmitters, receptors</td><td>Caire et al. (2023)</td></tr>
+      <tr><td>3 · What Happens When Drugs Enter?</td><td>How drugs interfere with neural communication</td><td>NIDA – Drugs and the Brain; Caire et al. (2023)</td></tr>
+      <tr><td>4 · Identify the Drug Effect</td><td>Stimulants, depressants, opioids, cannabis</td><td>NIDA – Drugs and the Brain; Mind Matters</td></tr>
+      <tr><td>5 · Return to the Case</td><td>Apply what you learned</td><td>All three sources</td></tr>
+      <tr><td>6 · What Happens Over Time?</td><td>Tolerance, dependence, addiction</td><td>NIDA – Drugs and the Brain; Mind Matters</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- PART C -->
+<section class="part" id="missions">
+  <div class="part-head">
+    <span class="eyebrow">Part C · Investigation</span>
+    <h2>Six missions and a final challenge</h2>
+    <p>Follow the case step by step. Each mission has a diagram or activity and a short check quiz.</p>
+    <div class="mpills"><a href="#m1" data-go="m1">1 Nervous system</a><a href="#m2" data-go="m2">2 Neural message</a><a href="#m3" data-go="m3">3 Drugs enter</a><a href="#m4" data-go="m4">4 Drug effects</a><a href="#m5" data-go="m5">5 The case</a><a href="#m6" data-go="m6">6 Over time</a><a href="#final" data-go="final">Final challenge</a></div>
+  </div>
+
+  <!-- M1 -->
+  <article class="mission" id="m1">
+    <header>
+      <span class="eyebrow">Mission 1</span>
+      <h3>Meet the Nervous System</h3>
+      <div class="chips"><span class="chip">CNS</span><span class="chip">PNS</span><span class="chip">Brain</span><span class="chip">Spinal cord</span><span class="chip">Nerves</span><span class="chip">Communication and coordination</span></div>
+    </header>
+    <p>Click a part of the diagram to find out what it does. You can also use Tab and Enter.</p>
+    <div class="lab">
+      <div class="stage">
+        <svg viewBox="0 0 300 480" role="group" aria-label="Interactive diagram of the human nervous system" id="bodySvg">
+          <ellipse class="outline" cx="150" cy="72" rx="60" ry="66"/>
+          <path class="outline" d="M122 132V150Q100 156 92 176V300Q92 312 104 312H196Q208 312 208 300V176Q200 156 178 150V132"/>
+          <g class="hs" data-id="nerves" tabindex="0" role="button" aria-label="Nerves, peripheral nervous system">
+            <path class="hit" d="M150 165L110 172L60 250L44 330M150 165L190 172L240 250L256 330M150 312L128 370L120 470M150 312L172 370L180 470"/>
+            <path class="nerve" d="M150 165L110 172L60 250L44 330M60 250L36 258M44 330L30 340M44 330L52 344M150 165L190 172L240 250L256 330M240 250L264 258M256 330L270 340M256 330L248 344M150 312L128 370L120 470M128 370L108 376M120 470L106 468M150 312L172 370L180 470M172 370L192 376M180 470L194 468"/>
+            <path class="ring" d="M30 160H270V480H30Z" style="display:none"/>
+          </g>
+          <g class="hs" data-id="cord" tabindex="0" role="button" aria-label="Spinal cord">
+            <line class="hit" x1="150" y1="130" x2="150" y2="312"/>
+            <line class="cord" x1="150" y1="130" x2="150" y2="312"/>
+          </g>
+          <g class="hs" data-id="brain" tabindex="0" role="button" aria-label="Brain">
+            <ellipse class="brain" cx="150" cy="66" rx="46" ry="40"/>
+            <path class="fold" d="M150 28C140 44 160 52 150 66C140 80 160 92 150 104M118 50C128 56 132 66 124 76M182 50C172 56 168 66 176 76M126 90C136 86 142 90 144 98M174 90C164 86 158 90 156 98"/>
+          </g>
+          <text x="214" y="62">Brain</text>
+          <text x="162" y="222" class="strong" style="display:none">Spinal cord</text>
+          <text x="216" y="240">Spinal cord</text>
+          <line x1="153" y1="236" x2="212" y2="236" stroke="var(--line)" stroke-width="1.5"/>
+          <text x="214" y="400">Nerves</text>
+        </svg>
+        <div class="legend"><span><i style="background:var(--cns)"></i>CNS: brain and spinal cord</span><span><i style="background:var(--pns)"></i>PNS: nerves</span></div>
+      </div>
+      <div class="info" id="info1" aria-live="polite">
+        <span class="tag">Start here</span>
+        <h4>Pick a part</h4>
+        <p>The brain and spinal cord form the central nervous system (CNS). The nerves that reach the rest of the body form the peripheral nervous system (PNS). Click the diagram to explore each part.</p>
+      </div>
+    </div>
+    <div class="check">
+      <h4><span class="tag">Check</span> Mission 1 quiz</h4>
+      <div id="quiz-m1"></div>
+    </div>
+  </article>
+
+  <!-- M2 -->
+  <article class="mission" id="m2">
+    <header>
+      <span class="eyebrow">Mission 2</span>
+      <h3>Follow the Neural Message</h3>
+      <div class="chips"><span class="chip">Neuron</span><span class="chip">Dendrite</span><span class="chip">Axon</span><span class="chip">Synapse</span><span class="chip">Neurotransmitters</span><span class="chip">Receptors</span></div>
+      <div class="srcline">Main source: Caire et al. (2023), Physiology, Synapse.</div>
+    </header>
+    <p>Press play to send a message along the neuron, then click each part to learn its job.</p>
+    <div class="lab">
+      <div class="stage">
+        <svg viewBox="0 0 640 230" role="group" aria-label="Interactive diagram of a neuron" id="neuronSvg">
+          <g class="hs" data-id="dend" tabindex="0" role="button" aria-label="Dendrites">
+            <path class="hit" d="M140 100L90 60L50 40M90 60L60 70M140 112L60 112L30 100M60 112L34 124M140 124L90 170L50 190M90 170L64 168"/>
+            <path class="dend" d="M140 100L90 60L50 40M90 60L60 70M140 112L60 112L30 100M60 112L34 124M140 124L90 170L50 190M90 170L64 168"/>
+          </g>
+          <g class="hs" data-id="soma" tabindex="0" role="button" aria-label="Cell body">
+            <circle class="soma" cx="170" cy="112" r="36"/><circle class="nuc" cx="170" cy="112" r="12"/>
+          </g>
+          <g class="hs" data-id="axon" tabindex="0" role="button" aria-label="Axon">
+            <line class="hit" x1="206" y1="112" x2="500" y2="112"/>
+            <line class="axon" x1="206" y1="112" x2="500" y2="112"/>
+          </g>
+          <g class="hs" data-id="term" tabindex="0" role="button" aria-label="Axon terminals">
+            <path class="hit" d="M500 112L540 70L566 62M500 112L566 112M500 112L540 154L566 164"/>
+            <path class="term" d="M500 112L540 70L566 62M500 112L566 112M500 112L540 154L566 164"/>
+            <circle class="bulb" cx="570" cy="61" r="7"/><circle class="bulb" cx="572" cy="112" r="7"/><circle class="bulb" cx="570" cy="165" r="7"/>
+          </g>
+          <circle class="pulse" id="pulse" cx="206" cy="112" r="9"/>
+          <path d="M628 40Q606 112 628 184" fill="none" stroke="var(--pns)" stroke-width="5" stroke-linecap="round"/>
+          <text x="40" y="215">Dendrites</text><text x="136" y="170" style="display:none">Cell body</text><text x="150" y="168" class="strong" style="display:none">Cell body</text>
+          <text x="140" y="164">Cell body</text><text x="316" y="100">Axon</text><text x="486" y="206">Axon terminals</text><text x="584" y="228" style="display:none">Synapse</text>
+          <text x="576" y="30">Synapse →</text>
+        </svg>
+        <div class="row" style="margin-top:8px"><button class="btn sm primary" type="button" id="playPulse">▶ Send a message</button><span class="hint">The pulse stops at the axon terminals, where neurotransmitters are released.</span></div>
+      </div>
+      <div class="info" id="info2" aria-live="polite">
+        <span class="tag">Start here</span>
+        <h4>Pick a part of the neuron</h4>
+        <p>A neuron is a nerve cell. It receives a signal, passes it along as an electrical impulse, and hands it on to the next neuron across a tiny gap called the synapse.</p>
+      </div>
+    </div>
+
+    <h3 class="sub" style="font-size:1.1rem">Put the steps in order</h3>
+    <p class="hint">Click the steps in the order they happen. Click a placed step to remove it.</p>
+    <div class="order">
+      <div><h4>Steps</h4><div class="slot" id="pool"></div></div>
+      <div><h4>Your order</h4><div class="slot" id="seq"></div></div>
+    </div>
+    <div class="row"><button class="btn sm primary" type="button" id="ordCheck">Check order</button><button class="btn sm" type="button" id="ordReset">Reset</button><span id="ordMsg" class="hint" aria-live="polite"></span></div>
+
+    <div class="check">
+      <h4><span class="tag">Check</span> Mission 2 quiz</h4>
+      <div id="quiz-m2"></div>
+    </div>
+  </article>
+
+  <!-- M3 -->
+  <article class="mission" id="m3">
+    <header>
+      <span class="eyebrow">Mission 3</span>
+      <h3>What Happens When Drugs Enter the System?</h3>
+      <div class="chips"><span class="chip">Interfere with neurotransmission</span><span class="chip">Affect receptors</span><span class="chip">Change brain activity</span><span class="chip">Change behaviour and body functions</span></div>
+      <div class="srcline">Main sources: NIDA, Drugs and the Brain; Caire et al. (2023).</div>
+    </header>
+    <p>Compare a normal synapse with a drug-affected synapse. Switch the mode, then click the parts of the diagram to see what changes.</p>
+    <div class="modes" role="group" aria-label="Synapse mode">
+      <button type="button" data-mode="normal" aria-pressed="true">Normal synapse</button>
+      <button type="button" data-mode="mimic" aria-pressed="false">Drug imitates a messenger</button>
+      <button type="button" data-mode="flood" aria-pressed="false">Drug floods or blocks recycling</button>
+    </div>
+    <div class="lab">
+      <div class="stage">
+        <svg viewBox="0 0 640 300" role="group" aria-label="Interactive diagram of a synapse" id="synSvg"></svg>
+        <div class="legend"><span><i style="background:var(--cns)"></i>Neurotransmitter</span><span><i style="background:var(--warn)"></i>Drug molecule</span><span><i style="background:var(--bad)"></i>Blocked recycling</span></div>
+      </div>
+      <div>
+        <div class="info" id="info3" aria-live="polite"></div>
+        <div class="partbtns" id="synParts" role="group" aria-label="Parts of the synapse"></div>
+        <div class="result" id="synResult"></div>
+      </div>
+    </div>
+    <div class="check">
+      <h4><span class="tag">Check</span> Mission 3 quiz</h4>
+      <div id="quiz-m3"></div>
+    </div>
+  </article>
+
+  <!-- M4 -->
+  <article class="mission" id="m4">
+    <header>
+      <span class="eyebrow">Mission 4</span>
+      <h3>Identify the Drug Effect</h3>
+      <div class="chips"><span class="chip">Stimulants</span><span class="chip">Depressants</span><span class="chip">Opioids</span><span class="chip">Cannabis</span></div>
+      <div class="srcline">Main sources: NIDA, Drugs and the Brain; NIDA, Mind Matters.</div>
+    </header>
+    <div class="grid g4">
+      <div class="card dcard"><span class="tag">Stimulants</span><h4>Speed things up</h4>
+        <div class="meter"><span>Activity</span><span class="m"><b style="width:85%"></b></span><span>↑</span></div>
+        <dl><div><dt>Generally</dt><dd>Increase nervous system activity.</dd></div><div><dt>Possible effects</dt><dd>Alertness, faster heart rate, restlessness.</dd></div><div><dt>Examples</dt><dd>Caffeine, nicotine, amphetamine, cocaine.</dd></div></dl></div>
+      <div class="card dcard"><span class="tag pns">Depressants</span><h4>Slow things down</h4>
+        <div class="meter"><span>Activity</span><span class="m dn"><b style="width:25%"></b></span><span>↓</span></div>
+        <dl><div><dt>Generally</dt><dd>Reduce nervous system activity.</dd></div><div><dt>Possible effects</dt><dd>Drowsiness, slower reactions, slurred speech.</dd></div><div><dt>Examples</dt><dd>Alcohol, sedative medicines.</dd></div></dl></div>
+      <div class="card dcard"><span class="tag warn">Opioids</span><h4>Block pain, slow breathing</h4>
+        <div class="meter"><span>Activity</span><span class="m dn"><b style="width:20%"></b></span><span>↓</span></div>
+        <dl><div><dt>Generally</dt><dd>Reduce pain.</dd></div><div><dt>Key risk</dt><dd>Can dangerously slow breathing at high doses.</dd></div><div><dt>Examples</dt><dd>Heroin, morphine, fentanyl, prescription painkillers.</dd></div></dl></div>
+      <div class="card dcard"><span class="tag warn">Cannabis</span><h4>Changes thinking and movement</h4>
+        <div class="meter"><span>Activity</span><span class="m var"><b style="width:55%"></b></span><span>~</span></div>
+        <dl><div><dt>Generally</dt><dd>Can affect memory, attention and coordination.</dd></div><div><dt>Possible effects</dt><dd>Changed perception and mood, slower reactions.</dd></div><div><dt>Also called</dt><dd>Marijuana.</dd></div></dl></div>
+    </div>
+    <p class="hint">Effects vary with the drug, the dose and the person. This is general education, not medical advice.</p>
+
+    <h3 class="sub" style="font-size:1.1rem">Match the drug type to its possible effect</h3>
+    <p class="hint">Click a drug type, then click its effect.</p>
+    <div class="match" id="match"><div class="col" id="mL"></div><div class="col" id="mR"></div></div>
+    <div class="row"><button class="btn sm" type="button" id="mReset">Reset</button><span class="hint" id="mMsg" aria-live="polite"></span></div>
+
+    <div class="check">
+      <h4><span class="tag">Check</span> Mission 4 quiz</h4>
+      <div id="quiz-m4"></div>
+    </div>
+  </article>
+
+  <!-- M5 -->
+  <article class="mission" id="m5">
+    <header>
+      <span class="eyebrow">Mission 5</span>
+      <h3>Return to the Case</h3>
+      <div class="srcline">Use what you learned in Missions 1 to 4.</div>
+    </header>
+    <div class="casefile">
+      <div class="eyebrow">Case file</div>
+      <p style="margin-top:6px"><b>At a family gathering, Rayyan (17) takes a pill offered by an older cousin.</b> About an hour later he is unusually drowsy and speaks slowly. He reacts slowly when his name is called. His breathing looks slower and shallower than normal. Relatives are not sure whether to let him sleep it off.</p>
+      <div class="clues"><span>Very drowsy</span><span>Slow speech</span><span>Slow reactions</span><span>Slow, shallow breathing</span></div>
+    </div>
+    <div role="radiogroup" aria-label="Most likely explanation" class="choices" id="choices">
+      <label class="choice"><input type="radio" name="case" value="A"><span><b>A.</b> Activity in parts of the nervous system has been reduced (a depressant-like or opioid-like effect).</span></label>
+      <label class="choice"><input type="radio" name="case" value="B"><span><b>B.</b> Activity in the nervous system has been increased (a stimulant-like effect).</span></label>
+      <label class="choice"><input type="radio" name="case" value="C"><span><b>C.</b> This is mainly a memory and attention effect, typical of cannabis.</span></label>
+      <label class="choice"><input type="radio" name="case" value="D"><span><b>D.</b> Nothing unusual. He is probably just tired.</span></label>
+    </div>
+    <label class="l" for="reason">Give a short reason using the clues and what you learned</label>
+    <textarea id="reason" placeholder="Because…"></textarea>
+    <div class="row"><button class="btn primary" type="button" id="caseGo">Submit answer</button><span class="hint" id="caseHint" aria-live="polite"></span></div>
+    <div id="caseOut" hidden></div>
+  </article>
+
+  <!-- M6 -->
+  <article class="mission" id="m6">
+    <header>
+      <span class="eyebrow">Mission 6</span>
+      <h3>What Happens Over Time?</h3>
+      <div class="chips"><span class="chip">Tolerance</span><span class="chip">Dependence</span><span class="chip">Addiction</span><span class="chip">Brain function</span><span class="chip">Learning, memory, behaviour</span></div>
+      <div class="srcline">Main sources: NIDA, Drugs and the Brain; NIDA, Mind Matters.</div>
+    </header>
+    <div class="stairs">
+      <div class="stair"><span class="eyebrow">Step 1</span><h4>Repeated use</h4><p>The brain keeps meeting the drug, and neural communication is repeatedly changed.</p></div>
+      <div class="stair"><span class="eyebrow">Step 2</span><h4>Tolerance</h4><p>The same amount has a weaker effect, so a person may need more to feel the same.</p></div>
+      <div class="stair"><span class="eyebrow">Step 3</span><h4>Dependence</h4><p>The body adapts to the drug. Stopping can cause unpleasant withdrawal symptoms.</p></div>
+      <div class="stair"><span class="eyebrow">Step 4</span><h4>Addiction</h4><p>Continued drug use despite harmful consequences, with lasting changes in brain function.</p></div>
+    </div>
+
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card">
+        <h4 style="font-size:1.1rem">Same amount, weaker effect</h4>
+        <p class="hint">Illustration of tolerance. The bars are an example, not real data.</p>
+        <div class="bars" role="img" aria-label="Bars falling from 100 percent to 35 percent across five repeated uses">
+          <div style="height:100%;animation-delay:.0s"><span>Use 1</span></div><div style="height:80%;animation-delay:.1s"><span>2</span></div><div style="height:62%;animation-delay:.2s"><span>3</span></div><div style="height:48%;animation-delay:.3s"><span>4</span></div><div style="height:35%;animation-delay:.4s"><span>5</span></div>
+        </div>
+        <p style="margin-top:28px;font-size:.92rem">Effect felt from the same amount</p>
+      </div>
+      <div class="card note">
+        <h4 style="font-size:1.1rem">Learning, memory and behaviour</h4>
+        <ul style="margin-top:8px"><li>Drugs can change the brain areas that handle attention, memory and decision making.</li><li>This can make learning harder and change behaviour.</li><li>The brain keeps developing through the teenage years, so early drug use can matter more.</li><li>Help works. Treatment and support exist for dependence and addiction.</li></ul>
+      </div>
+    </div>
+
+    <div class="check">
+      <h4><span class="tag">Check</span> Scenario questions</h4>
+      <div id="quiz-m6"></div>
+    </div>
+  </article>
+
+  <!-- FINAL -->
+  <article class="mission" id="final">
+    <header>
+      <span class="eyebrow">Final mission</span>
+      <h3>Brain Challenge</h3>
+      <div class="srcline">15 questions covering the nervous system, neurons, neurotransmitters, drug effects, tolerance and addiction. Instant feedback after every answer.</div>
+    </header>
+    <div id="quiz-final"></div>
+  </article>
+</section>
+
+<!-- PART D -->
+<section class="part" id="challenge">
+  <div class="part-head">
+    <span class="eyebrow">Part D · Practice</span>
+    <h2>More quizzes and flashcards</h2>
+    <p>Keep practising until the key ideas feel easy. Use the flashcards for terms, and the rapid true or false round for quick revision.</p>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="font-size:1.25rem;margin-bottom:6px">Rapid true or false</h3>
+      <p class="hint" style="margin-bottom:12px">Eight quick statements.</p>
+      <div id="quiz-tf"></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:1.25rem;margin-bottom:6px">Term flashcards</h3>
+      <p class="hint" style="margin-bottom:12px">Click the card to flip it. Mark each as Got it or Again.</p>
+      <div class="fc" id="fc"></div>
+    </div>
+  </div>
+  <p class="hint" style="margin-top:14px">Want a harder run? The <a href="#final" data-go="final">Final Brain Challenge</a> is above, in Part C.</p>
+</section>
+
+<!-- PART E -->
+<section class="part" id="plan">
+  <div class="part-head">
+    <span class="eyebrow">Part E · Project plan</span>
+    <h2>Content outline, storyboard and reflection</h2>
+    <p>The planning notes behind this site (Task 2 preparation).</p>
+  </div>
+
+  <h3 class="sub" style="margin-top:0">Preliminary content outline</h3>
+  <p class="hint" style="margin-bottom:12px">The material uses a case-investigation approach. Students follow a short case and gradually discover how the nervous system works and how drugs can change its functions.</p>
+  <div id="outline"></div>
+
+  <h3 class="sub">Google Sites storyboard</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Page</th><th>Proposed content</th><th>Multimedia elements</th><th>Interactive features</th></tr></thead>
+    <tbody>
+      <tr><td><b>Home – Inside the Brain</b></td><td>Introduce the investigation and learning objectives.</td><td>Brain image and short video</td><td>Start Investigation button</td></tr>
+      <tr><td><b>Mission 1 – Meet the Nervous System</b></td><td>CNS, PNS, brain, spinal cord and nerves.</td><td>Interactive nervous system diagram</td><td>Click different parts</td></tr>
+      <tr><td><b>Mission 2 – Follow the Neural Message</b></td><td>Neurons, synapses and neurotransmitters.</td><td>Neuron and synapse animation</td><td>Arrange communication steps</td></tr>
+      <tr><td><b>Mission 3 – What Happens When Drugs Enter?</b></td><td>How drugs can interfere with neural communication.</td><td>Before-and-after animation</td><td>Click to reveal changes</td></tr>
+      <tr><td><b>Mission 4 – Identify the Drug Effect</b></td><td>General effects of stimulants, depressants, opioids and cannabis.</td><td>Drug comparison cards</td><td>Matching activity</td></tr>
+      <tr><td><b>Mission 5 – Return to the Case</b></td><td>Apply knowledge to the opening case.</td><td>Case-study illustration</td><td>Choose an explanation and give a reason</td></tr>
+      <tr><td><b>Mission 6 – What Happens Over Time?</b></td><td>Tolerance, dependence and addiction.</td><td>Brain infographic</td><td>Scenario questions</td></tr>
+      <tr><td><b>Final Mission – Brain Challenge</b></td><td>Review the whole topic.</td><td>Online quiz</td><td>MCQ, True/False and instant feedback</td></tr>
+      <tr><td><b>References</b></td><td>Sources used to develop the material.</td><td>Hyperlinks</td><td>Clickable source links</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="sub">Sitemap</h3>
+  <div class="sitemap">
+    <div class="home">Home – Inside the Brain</div>
+    <div class="kids">
+      <div>Mission 1 – Meet the Nervous System</div><div>Mission 2 – Follow the Neural Message</div><div>Mission 3 – What Happens When Drugs Enter?</div><div>Mission 4 – Identify the Drug Effect</div><div>Mission 5 – Return to the Case</div><div>Mission 6 – What Happens Over Time?</div><div>Final Mission – Brain Challenge</div><div>References</div>
+    </div>
+  </div>
+
+  <h3 class="sub">Reflection</h3>
+  <div class="card">
+    <p class="hint" style="margin-bottom:8px">Draft reflection. Edit it in your own words before submitting.</p>
+    <p>I chose three sources that approach the topic from different angles. NIDA's <i>Drugs and the Brain</i> comes from a research agency within the National Institutes of Health and explains how drugs change brain communication. The StatPearls entry on the synapse by Caire et al. (2023) is a peer-reviewed reference that gives the basic science of how neurons communicate. NIDA's <i>Mind Matters</i> is written for learners, so it helped me think about how to explain ideas in a student-friendly way and which activities could work.</p>
+    <p style="margin-top:10px">For the learning materials I used a mission-based case investigation instead of separate chapters, because students can discover the ideas step by step and apply them to a case. Each mission pairs a multimedia element with an interactive task, such as clicking a diagram, ordering steps, matching drug types and answering scenario questions. This suits independent, asynchronous learning because students get immediate feedback. Before publishing, I would re-check that every source is current and keep the explanations general, because drug effects vary between people and situations.</p>
+  </div>
+</section>
+
+<footer>
+  <div><b>References</b></div>
+  <div class="apa" style="gap:6px">
+    <div style="padding-left:2.2rem;text-indent:-2.2rem;overflow-wrap:anywhere">Caire, M. J., Reddy, V., &amp; Varacallo, M. A. (2023). Physiology, synapse. In <i>StatPearls</i>. StatPearls Publishing. <a href="https://www.ncbi.nlm.nih.gov/books/NBK526047/" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/books/NBK526047/</a></div>
+    <div style="padding-left:2.2rem;text-indent:-2.2rem;overflow-wrap:anywhere">National Institute on Drug Abuse. (2020, July 6). <i>Drugs and the brain</i>. National Institutes of Health. <a href="https://nida.nih.gov/research-topics/drugs-brain" target="_blank" rel="noopener">https://nida.nih.gov/research-topics/drugs-brain</a></div>
+    <div style="padding-left:2.2rem;text-indent:-2.2rem;overflow-wrap:anywhere">National Institute on Drug Abuse. (2022). <i>Mind matters: Teacher's guide</i>. National Institutes of Health. <a href="https://nida.nih.gov/research-topics/parents-educators/mind-matter-series/teachers-guide" target="_blank" rel="noopener">https://nida.nih.gov/research-topics/parents-educators/mind-matter-series/teachers-guide</a></div>
+  </div>
+  <p>This site is for education and is not medical advice. If someone may have taken a harmful amount of a drug or is struggling to breathe, call emergency services straight away (999 in Malaysia).</p>
+</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+/* progress */
+var activities={},doneSet={};
+function register(k){activities[k]=1;upd()}
+function complete(k){doneSet[k]=1;upd()}
+function upd(){var t=Object.keys(activities).length,d=Object.keys(doneSet).length;
+  $('#progText').textContent=d+' / '+t;$('#progFill').style.width=(t?d/t*100:0)+'%'}
+
+/* smooth nav */
+$$('[data-go]').forEach(function(a){a.addEventListener('click',function(e){
+  var id=a.getAttribute('data-go');var t=document.getElementById(id);
+  if(t&&t.scrollIntoView){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})});
+var navLinks=$$('.nav a');
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){
+    var id=en.target.id;navLinks.forEach(function(a){a.classList.toggle('on',a.getAttribute('data-go')===id)})}})},{rootMargin:'-30% 0px -60% 0px'});
+  ['resources','glossary','notes','missions','challenge','plan'].forEach(function(id){var s=document.getElementById(id);if(s)io.observe(s)});
+}
+
+/* copy buttons */
+$$('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+  var node=document.getElementById(b.getAttribute('data-copy'));var txt=node.textContent.trim();
+  function sel(){var r=document.createRange();r.selectNodeContents(node);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected. Press Ctrl+C'}
+  try{navigator.clipboard.writeText(txt).then(function(){b.textContent='Copied'},sel)}catch(e){sel()}
+  setTimeout(function(){b.textContent='Copy reference'},2600)})});
+
+/* quiz engine */
+function mountQuiz(rootId,qs,key){
+  var root=document.getElementById(rootId);if(!root)return;register(key);
+  function build(){
+    root.innerHTML='';var answered=0,right=0;
+    var list=el('div','qlist');root.appendChild(list);
+    var sum=el('div','qsum');sum.hidden=true;root.appendChild(sum);
+    qs.forEach(function(q,i){
+      var tf=q.type==='tf';var opts=tf?['True','False']:q.o;
+      var card=el('div','q');
+      card.innerHTML='<div class="qmeta"><span class="qnum">Q'+(i+1)+'</span><span class="qtype">'+(tf?'True / False':'Multiple choice')+'</span></div><p class="qtext">'+q.q+'</p>';
+      var ow=el('div','opts'+(tf?' tf':''));var fb=el('div','fb');fb.setAttribute('aria-live','polite');
+      var correctIdx=tf?(q.a?0:1):q.a;var btns=[];
+      opts.forEach(function(t,j){
+        var b=el('button','opt');b.type='button';
+        b.innerHTML='<span class="ol">'+(tf?(j?'F':'T'):String.fromCharCode(65+j))+'</span><span>'+t+'</span>';
+        b.addEventListener('click',function(){
+          if(card.getAttribute('data-done'))return;card.setAttribute('data-done','1');answered++;
+          var ok=(j===correctIdx);if(ok)right++;
+          btns.forEach(function(x,k){x.disabled=true;if(k===correctIdx)x.classList.add('right')});
+          if(!ok)b.classList.add('wrong');
+          card.classList.add(ok?'is-right':'is-wrong');
+          fb.innerHTML='<strong>'+(ok?'Correct.':'Not quite.')+'</strong> '+q.e;
+          if(answered===qs.length){
+            sum.hidden=false;
+            var pct=right/qs.length;
+            var msg=pct===1?'Perfect score.':pct>=.7?'Strong work. Review the questions you missed.':'Good start. Re-read the notes and try again.';
+            sum.innerHTML='<div><b>'+right+' / '+qs.length+'</b><div class="hint">'+msg+'</div></div>';
+            var rb=el('button','btn sm','Try again');rb.type='button';rb.addEventListener('click',build);sum.appendChild(rb);
+            complete(key);
+          }
+        });
+        btns.push(b);ow.appendChild(b)});
+      card.appendChild(ow);card.appendChild(fb);list.appendChild(card)});
+  }
+  build();
+}
+
+/* data: quizzes */
+var QSRC=[
+ {q:'You need reliable information about how drugs change the brain. Which source is the strongest choice?',o:['An anonymous blog post with no author','A research agency within the National Institutes of Health','A viral social media video','A product advertisement'],a:1,e:'NIDA is part of the NIH and publishes research-based information. Look for a named, expert organisation.'},
+ {q:'A peer-reviewed reference on NCBI Bookshelf is generally more credible than an anonymous forum post.',type:'tf',a:true,e:'Peer review and an established publisher give the content a quality check that an anonymous post lacks.'},
+ {q:'Why should you check the date of a science source?',o:['Newer sources are always longer','Scientific understanding is updated, so older information may be out of date','The date shows who wrote it','Dates are only needed for videos'],a:1,e:'Research keeps developing, so check that the information is still current.'},
+ {q:'In the reference "National Institute on Drug Abuse. (2020, July 6). Drugs and the brain.", what does the first element identify?',o:['The page title','The publisher only','The author, which here is an organisation','The date of access'],a:2,e:'In APA 7th edition an organisation can be the author. The title comes after the date.'}
+];
+var QM1=[
+ {q:'Which two parts make up the central nervous system (CNS)?',o:['Brain and nerves','Brain and spinal cord','Spinal cord and muscles','Nerves and sense organs'],a:1,e:'The CNS is the brain plus the spinal cord.'},
+ {q:'What is the main job of the peripheral nervous system (PNS)?',o:['Store memories','Carry messages between the CNS and the rest of the body','Produce hormones','Protect the skull'],a:1,e:'Nerves of the PNS link the brain and spinal cord with the body.'},
+ {q:'The spinal cord is part of the peripheral nervous system.',type:'tf',a:false,e:'The spinal cord belongs to the CNS, together with the brain.'}
+];
+var QM2=[
+ {q:'Which part of a neuron mainly receives incoming signals?',o:['Dendrites','Axon','Axon terminals','Synapse'],a:0,e:'Dendrites branch out to pick up signals from other neurons.'},
+ {q:'What crosses the synapse to carry the message to the next neuron?',o:['Dendrites','Receptors','Neurotransmitters','The spinal cord'],a:2,e:'Neurotransmitters are chemical messengers released into the synapse.'},
+ {q:'Where are the receptors that detect neurotransmitters found?',o:['On the receiving neuron','Inside the spinal cord only','On the sending neuron\'s axon','In the skull'],a:0,e:'Receptors on the receiving neuron fit particular neurotransmitters.'}
+];
+var QM3=[
+ {q:'A drug has a shape similar to a natural neurotransmitter. What can it do?',o:['Destroy the synapse at once','Fit and activate receptors','Stop the axon from carrying impulses','Make dendrites grow longer instantly'],a:1,e:'Some drugs imitate natural messengers and activate receptors, though not in the normal pattern.'},
+ {q:'If the recycling of a neurotransmitter is blocked, what happens?',o:['Less neurotransmitter reaches the receptors','More neurotransmitter stays in the synapse for longer','The neuron loses all its receptors','Signals travel backwards'],a:1,e:'Without recycling, neurotransmitter lingers and the message is exaggerated.'},
+ {q:'Drugs can change brain activity but cannot affect behaviour or body functions.',type:'tf',a:false,e:'Changes in neural communication can change behaviour and body functions such as breathing and movement.'}
+];
+var QM4=[
+ {q:'Depressants generally…',o:['Increase nervous system activity','Reduce nervous system activity','Have no effect on neurons','Only affect the heart'],a:1,e:'Depressants slow things down: drowsiness, slower reactions.'},
+ {q:'Which drug type can dangerously slow breathing at high doses?',o:['Opioids','Caffeine','Vitamin supplements','Antacids'],a:0,e:'Opioids reduce pain but at high doses can slow breathing to a dangerous level.'},
+ {q:'Cannabis can affect memory, attention and coordination.',type:'tf',a:true,e:'These are well-known effects, and they can make learning and driving harder.'}
+];
+var QM6=[
+ {q:'Sam needs a larger amount than before to feel the same effect. This is…',o:['Tolerance','Withdrawal','Reuptake','A reflex'],a:0,e:'Tolerance means the same amount has a weaker effect over time.'},
+ {q:'After stopping, Mia feels sick and anxious because her body has adapted to the drug. This suggests…',o:['Dependence and withdrawal','Better memory','A new synapse','Normal sleepiness'],a:0,e:'When the body adapts, stopping can cause withdrawal symptoms.'},
+ {q:'Leo keeps using a drug even though it is hurting his grades and friendships, and he cannot stop. This describes…',o:['Tolerance only','Addiction','A reflex','Receptor recycling'],a:1,e:'Addiction involves continued use despite harmful consequences.'},
+ {q:'Tolerance and addiction mean exactly the same thing.',type:'tf',a:false,e:'Tolerance is one change. Addiction is continued use despite harm, with lasting changes in brain function.'}
+];
+var QFINAL=[
+ {q:'Which two parts form the central nervous system?',o:['Brain and spinal cord','Brain and nerves','Spinal cord and muscles','Nerves and sense organs'],a:0,e:'The CNS = brain + spinal cord.'},
+ {q:'Nerves that carry messages between the CNS and the body belong to the peripheral nervous system.',type:'tf',a:true,e:'That is the PNS.'},
+ {q:'Which part of a neuron receives incoming signals?',o:['Axon','Axon terminals','Dendrites','Synapse'],a:2,e:'Dendrites receive.'},
+ {q:'What crosses the synapse to carry the message to the next neuron?',o:['Receptors','Neurotransmitters','Dendrites','The spinal cord'],a:1,e:'Neurotransmitters are the chemical messengers.'},
+ {q:'What do receptors do?',o:['Release neurotransmitters','Carry the impulse along the axon','Detect neurotransmitters on the receiving neuron','Recycle the cell body'],a:2,e:'Receptors bind neurotransmitters and pass the message on.'},
+ {q:'A drug can change the brain but cannot change behaviour.',type:'tf',a:false,e:'Changes in neural communication can alter behaviour and body functions.'},
+ {q:'A drug that resembles a natural neurotransmitter can…',o:['Fit and activate receptors','Remove all neurotransmitters','Speed up the spinal cord','Stop dendrites from receiving'],a:0,e:'Mimicking drugs can activate receptors.'},
+ {q:'If recycling (reuptake) is blocked…',o:['Less messenger remains in the synapse','More neurotransmitter stays in the synapse for longer','Receptors disappear','The axon grows'],a:1,e:'Blocked recycling leaves neurotransmitter in the gap.'},
+ {q:'Stimulants generally…',o:['Reduce activity','Increase nervous system activity','Remove pain only','Stop breathing'],a:1,e:'Stimulants generally speed up nervous system activity.'},
+ {q:'Depressants generally…',o:['Increase alertness','Reduce nervous system activity','Grow new neurons','Repair nerves'],a:1,e:'Depressants slow activity: drowsiness, slower reactions.'},
+ {q:'Which drug type can dangerously slow breathing at high doses?',o:['Stimulants','Opioids','Caffeine','Nicotine'],a:1,e:'Opioids reduce pain and can slow breathing dangerously at high doses.'},
+ {q:'Cannabis can affect memory, attention and coordination.',type:'tf',a:true,e:'These effects can interfere with learning and safe movement.'},
+ {q:'Needing more of a drug to get the same effect is called…',o:['Reuptake','Tolerance','Reflex','Synapse'],a:1,e:'That is tolerance.'},
+ {q:'Tolerance by itself always means a person is addicted.',type:'tf',a:false,e:'Tolerance is one adaptation. Addiction is continued use despite harm.'},
+ {q:'Which best describes addiction?',o:['A single unpleasant experience','Using a drug occasionally with no harm','Continued drug use despite harmful consequences','Only the feeling of sleepiness'],a:2,e:'Addiction is continued use despite harmful consequences.'}
+];
+var QTF=[
+ {q:'The brain and spinal cord make up the peripheral nervous system.',type:'tf',a:false,e:'They make up the central nervous system.'},
+ {q:'Neurons communicate across synapses using chemical messengers.',type:'tf',a:true,e:'Neurotransmitters cross the synapse.'},
+ {q:'Receptors are found only on the sending neuron.',type:'tf',a:false,e:'Receptors are on the receiving neuron.'},
+ {q:'Some drugs can make neurons release abnormally large amounts of neurotransmitter.',type:'tf',a:true,e:'This exaggerates the message.'},
+ {q:'Depressants generally speed up nervous system activity.',type:'tf',a:false,e:'They generally reduce it.'},
+ {q:'If someone is very drowsy and breathing slowly after taking an unknown pill, letting them sleep it off is the safest choice.',type:'tf',a:false,e:'Slow breathing can be an emergency. Call emergency services and stay with them.'},
+ {q:'Needing a bigger amount to get the same effect is called tolerance.',type:'tf',a:true,e:'Correct.'},
+ {q:'Drug effects are identical for everyone, whatever the dose or the person.',type:'tf',a:false,e:'Effects vary with the drug, the dose and the person.'}
+];
+mountQuiz('quiz-src',QSRC,'q-src');mountQuiz('quiz-m1',QM1,'q-m1');mountQuiz('quiz-m2',QM2,'q-m2');mountQuiz('quiz-m3',QM3,'q-m3');
+mountQuiz('quiz-m4',QM4,'q-m4');mountQuiz('quiz-m6',QM6,'q-m6');mountQuiz('quiz-final',QFINAL,'q-final');mountQuiz('quiz-tf',QTF,'q-tf');
+
+/* glossary + flashcards */
+var GL=[
+ ['Neuron','A nerve cell that receives, processes and passes on messages.'],
+ ['Dendrite','A branch of a neuron that receives incoming signals.'],
+ ['Axon','The long fibre that carries the electrical impulse away from the cell body.'],
+ ['Synapse','The tiny gap between two neurons where messages are passed on.'],
+ ['Neurotransmitter','A chemical messenger released into the synapse to carry a signal to the next neuron.'],
+ ['Receptor','A protein on the receiving neuron that detects a particular neurotransmitter.'],
+ ['Central nervous system (CNS)','The brain and the spinal cord.'],
+ ['Peripheral nervous system (PNS)','The nerves that connect the CNS to the rest of the body.'],
+ ['Brain','The control centre for thinking, memory, emotion and movement.'],
+ ['Spinal cord','A bundle of nerve tissue that relays messages between the brain and the body.'],
+ ['Nerve','A bundle of nerve fibres that carries messages to and from the CNS.'],
+ ['Dopamine','A neurotransmitter linked to movement, motivation and reward. Many drugs cause unusually large dopamine signals.'],
+ ['Reuptake (recycling)','The process by which a neuron takes neurotransmitter back from the synapse to reuse it.'],
+ ['Stimulant','A drug that generally increases nervous system activity.'],
+ ['Depressant','A drug that generally reduces nervous system activity.'],
+ ['Opioid','A drug that reduces pain and, at high doses, can dangerously slow breathing.'],
+ ['Cannabis','A drug that can affect memory, attention and coordination.'],
+ ['Tolerance','Needing more of a drug to get the same effect.'],
+ ['Dependence','A state in which the body has adapted to a drug, so stopping causes withdrawal.'],
+ ['Withdrawal','Unpleasant physical and mental symptoms that can occur when a dependent person stops using a drug.'],
+ ['Addiction','Continued drug use despite harmful consequences, with lasting changes in brain function.']
+];
+var gl=$('#gl'),gs=$('#gsearch'),gc=$('#gcount');
+function renderGl(){var q=gs.value.trim().toLowerCase();var n=0;gl.innerHTML='';
+  GL.forEach(function(g){if(!q||g[0].toLowerCase().indexOf(q)>-1||g[1].toLowerCase().indexOf(q)>-1){n++;
+    var d=el('div','term');d.innerHTML='<dl><dt></dt><dd></dd></dl>';$('dt',d).textContent=g[0];$('dd',d).textContent=g[1];gl.appendChild(d)}});
+  if(!n)gl.appendChild(el('div','empty','No matching term. Try a shorter word.'));
+  gc.textContent=n+' of '+GL.length+' terms'}
+gs.addEventListener('input',renderGl);renderGl();
+
+(function(){
+  var root=$('#fc');register('flash');
+  var deck,i,flip,known,again;
+  function start(list){deck=list;i=0;flip=false;known=0;again=[];draw()}
+  function draw(){
+    root.innerHTML='';
+    if(i>=deck.length){
+      var d=el('div','qsum');d.innerHTML='<div><b>'+known+' / '+deck.length+' got it</b><div class="hint">'+(again.length?again.length+' to review.':'Every card learned.')+'</div></div>';
+      if(again.length){var rb=el('button','btn sm primary','Review missed cards');rb.type='button';rb.onclick=function(){start(shuffle(again.map(function(k){return GL[k]})))};d.appendChild(rb)}
+      var all=el('button','btn sm','Restart all');all.type='button';all.onclick=function(){start(shuffle(GL))};d.appendChild(all);
+      root.appendChild(d);complete('flash');return}
+    var c=deck[i];
+    root.appendChild(el('div','fcount',(i+1)+' / '+deck.length));
+    var card=el('button','fcard'+(flip?' flip':''));card.type='button';
+    card.setAttribute('aria-label',flip?'Definition. Click to see the term':'Term. Click to see the definition');
+    var f=el('div','face'+(flip?' back':''));f.textContent=flip?c[1]:c[0];card.appendChild(f);
+    card.onclick=function(){flip=!flip;draw()};root.appendChild(card);
+    var row=el('div','row');row.style.justifyContent='center';
+    var a=el('button','btn sm','Again');a.type='button';a.onclick=function(){again.push(GL.indexOf(c));i++;flip=false;draw()};
+    var g=el('button','btn sm primary','Got it');g.type='button';g.onclick=function(){known++;i++;flip=false;draw()};
+    row.appendChild(a);row.appendChild(g);root.appendChild(row)}
+  start(shuffle(GL));
+})();
+
+/* generic hotspot helper */
+function hotspots(svg,onPick){
+  $$('.hs',svg).forEach(function(g){
+    function pick(){$$('.hs',svg).forEach(function(x){x.classList.remove('on')});g.classList.add('on');onPick(g.getAttribute('data-id'))}
+    g.addEventListener('click',pick);
+    g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick()}})})}
+
+/* M1 */
+var B={
+ brain:{n:'Brain',s:'CNS',t:'The control centre. It processes information from the senses, stores memories, produces thoughts and emotions, and sends instructions to the body.',f:'Drugs act mainly here, by changing how neurons send and receive messages.'},
+ cord:{n:'Spinal cord',s:'CNS',t:'A thick bundle of nerve tissue inside the backbone. It relays messages between the brain and the body and helps coordinate simple reflexes.',f:'Together, the brain and spinal cord make up the central nervous system.'},
+ nerves:{n:'Nerves',s:'PNS',t:'Nerves branch out from the brain and spinal cord to every part of the body. They carry sensory messages in and movement instructions out.',f:'The PNS is the communication line between the CNS and the body, which lets the body coordinate.'}};
+hotspots($('#bodySvg'),function(id){var d=B[id];
+  $('#info1').innerHTML='<span class="tag'+(d.s==='PNS'?' pns':'')+'">'+d.s+'</span><h4>'+d.n+'</h4><p>'+d.t+'</p><div class="fact">'+d.f+'</div>'});
+
+/* M2 */
+var N={
+ dend:{n:'Dendrites',t:'Branch-like endings that receive signals from other neurons. Receptors here detect neurotransmitters.',f:'Think of dendrites as the inbox of the neuron.'},
+ soma:{n:'Cell body',t:'Contains the nucleus and keeps the cell alive. It combines the incoming signals and decides whether to send an impulse.',f:'Also called the soma.'},
+ axon:{n:'Axon',t:'A long fibre that carries the electrical impulse away from the cell body towards the next neuron.',f:'Press "Send a message" to watch the impulse travel.'},
+ term:{n:'Axon terminals',t:'The tips of the axon. When the impulse arrives they release neurotransmitters into the synapse.',f:'The neurotransmitters cross the synapse and bind to receptors on the next neuron.'}};
+hotspots($('#neuronSvg'),function(id){var d=N[id];
+  $('#info2').innerHTML='<span class="tag">Neuron</span><h4>'+d.n+'</h4><p>'+d.t+'</p><div class="fact">'+d.f+'</div>'});
+$('#playPulse').addEventListener('click',function(){var p=$('#pulse');p.classList.remove('go');void p.getBoundingClientRect();p.classList.add('go')});
+
+/* ordering */
+(function(){
+  var STEPS=[
+   'The neuron receives a signal at its dendrites.',
+   'An electrical impulse travels along the axon.',
+   'Neurotransmitters are released into the synapse.',
+   'Neurotransmitters bind to receptors on the next neuron.',
+   'The next neuron passes the message on.'];
+  register('order');
+  var pool,seq;
+  function reset(){pool=shuffle(STEPS.map(function(s,k){return k}));seq=[];$('#ordMsg').textContent='';draw()}
+  function draw(marks){
+    var P=$('#pool'),S=$('#seq');P.innerHTML='';S.innerHTML='';
+    if(!pool.length)P.appendChild(el('div','empty','All steps placed.'));
+    pool.forEach(function(k){var b=el('button','stepbtn','<span>'+STEPS[k]+'</span>');b.type='button';
+      b.onclick=function(){pool.splice(pool.indexOf(k),1);seq.push(k);$('#ordMsg').textContent='';draw()};P.appendChild(b)});
+    if(!seq.length)S.appendChild(el('div','empty','Click steps to place them here.'));
+    seq.forEach(function(k,pos){var b=el('button','stepbtn'+(marks?(k===pos?' ok':' no'):''),'<span class="n">'+(pos+1)+'</span><span>'+STEPS[k]+'</span>');b.type='button';
+      b.onclick=function(){seq.splice(pos,1);pool.push(k);$('#ordMsg').textContent='';draw()};S.appendChild(b)})}
+  $('#ordCheck').addEventListener('click',function(){
+    var m=$('#ordMsg');
+    if(seq.length<STEPS.length){m.textContent='Place all five steps first.';return}
+    var ok=seq.every(function(k,p){return k===p});draw(true);
+    m.textContent=ok?'Correct. That is the order of neural communication.':'Some steps are in the wrong place. Fix the red ones and check again.';
+    if(ok)complete('order')});
+  $('#ordReset').addEventListener('click',reset);reset();
+})();
+
+/* M3 synapse */
+(function(){
+  var svg=$('#synSvg');var mode='normal',part=null;
+  var RY=[95,130,165,200,235],TY=[100,165,230];
+  var TXT={
+   normal:{
+    sender:'The sending neuron releases a small, controlled amount of neurotransmitter when its impulse arrives.',
+    nt:'Neurotransmitters are chemical messengers. They cross the gap in a fraction of a second.',
+    receptor:'Receptors on the receiving neuron fit particular neurotransmitters. A match passes the message on.',
+    recycle:'Transporters take leftover neurotransmitter back into the sending neuron, so the signal stops at the right time.',
+    result:'Normal: a message is sent, received and then stopped. Brain activity stays in balance.'},
+   mimic:{
+    sender:'The sending neuron works normally, but it is no longer the only thing activating the next neuron.',
+    nt:'Fewer natural messengers are needed to activate the receivers, because the drug is doing part of the job.',
+    receptor:'Drug molecules shaped like the natural messenger fit the receptors and activate them, but not in the normal pattern. NIDA describes heroin and marijuana this way.',
+    recycle:'Recycling is not the main change here. The main change is at the receptors.',
+    result:'Drug imitates a messenger: receptors are activated by the wrong molecules, so the neuron can send abnormal messages. Behaviour and body functions can change.'},
+   flood:{
+    sender:'Some drugs make the sending neuron release abnormally large amounts of neurotransmitter.',
+    nt:'Far more messenger sits in the gap than usual, so the receiving neuron gets a much stronger, longer signal.',
+    receptor:'Receptors are activated more strongly and more often, which exaggerates the message and changes brain activity.',
+    recycle:'Some drugs block the transporters, so neurotransmitter is not recycled and stays in the synapse. NIDA gives amphetamine and cocaine as examples.',
+    result:'Drug floods or blocks recycling: too much neurotransmitter stays too long, so the message is exaggerated and brain activity changes.'}};
+  var NAMES={sender:'Sending neuron',nt:'Neurotransmitters',receptor:'Receptors',recycle:'Recycling transporters'};
+  function ntDot(x,y,d){return '<circle class="nt fl" cx="'+x+'" cy="'+y+'" r="6" style="animation-delay:'+d+'s"/>'}
+  function draw(){
+    var h='';
+    h+='<g class="hs'+(part==='sender'?' on':'')+'" data-id="sender" tabindex="0" role="button" aria-label="Sending neuron"><rect class="membrane" x="30" y="30" width="220" height="240" rx="36"/>'
+     +'<circle class="ves" cx="90" cy="100" r="18"/><circle class="ves" cx="150" cy="140" r="18"/><circle class="ves" cx="95" cy="190" r="18"/><circle class="ves" cx="170" cy="215" r="18"/>'
+     +'<rect class="ring" x="26" y="26" width="228" height="248" rx="38"/></g>';
+    h+='<rect class="membrane" x="390" y="30" width="220" height="240" rx="36"/>';
+    h+='<text x="46" y="22">Sending neuron</text><text x="406" y="22">Receiving neuron</text><text x="262" y="292">Synapse</text>';
+    // receptors
+    var bound=mode==='normal'?[1,2,3]:mode==='mimic'?[0,1,2,3,4]:[0,1,2,3,4];
+    h+='<g class="hs'+(part==='receptor'?' on':'')+'" data-id="receptor" tabindex="0" role="button" aria-label="Receptors">';
+    RY.forEach(function(y,k){var cls='rec';
+      if(bound.indexOf(k)>-1){cls+=(mode==='mimic'&&k!==2)?' bndd':' bnd'}
+      h+='<path class="'+cls+'" d="M392 '+(y-13)+'C374 '+(y-13)+' 374 '+(y+13)+' 392 '+(y+13)+'Z"/>'});
+    h+='<rect class="ring" x="364" y="76" width="40" height="178" rx="8"/></g>';
+    // transporters
+    h+='<g class="hs'+(part==='recycle'?' on':'')+'" data-id="recycle" tabindex="0" role="button" aria-label="Recycling transporters">';
+    TY.forEach(function(y){h+='<rect class="trans" x="244" y="'+(y-14)+'" width="14" height="28" rx="4"/>';
+      if(mode==='flood')h+='<path class="block" d="M262 '+(y-12)+'L276 '+(y+12)+'M276 '+(y-12)+'L262 '+(y+12)+'"/>';
+      else h+='<path class="recyc" d="M274 '+(y+6)+'C268 '+(y+16)+' 262 '+(y+14)+' 260 '+(y+8)+'"/>'});
+    h+='<rect class="ring" x="238" y="76" width="46" height="176" rx="8"/></g>';
+    // neurotransmitters & drug
+    var dots='';
+    var cfg=mode==='normal'?{n:4,d:0}:mode==='mimic'?{n:2,d:1}:{n:11,d:0};
+    for(var i=0;i<cfg.n;i++){dots+=ntDot(272,[110,150,190,230,125,175,215,100,140,205,245][i%11],(i*0.42).toFixed(2))}
+    if(cfg.d){for(var j=0;j<4;j++){var yy=[115,160,205,240][j];dots+='<path class="drug fl nt" d="M272 '+(yy-8)+'L280 '+yy+'L272 '+(yy+8)+'L264 '+yy+'Z" style="animation-delay:'+(j*0.55).toFixed(2)+'s"/>'}}
+    h+='<g class="hs'+(part==='nt'?' on':'')+'" data-id="nt" tabindex="0" role="button" aria-label="Neurotransmitters">'+dots+'<rect class="ring" x="262" y="76" width="112" height="178" rx="8"/></g>';
+    svg.innerHTML=h;
+    hotspots(svg,function(id){part=id;show();syncBtns()});
+  }
+  function show(){
+    var t=TXT[mode],box=$('#info3');
+    var title=part?NAMES[part]:'Pick a part';
+    var body=part?t[part]:'Choose a mode above, then click a part of the diagram or use the buttons below to see what changes.';
+    box.innerHTML='<span class="tag'+(mode==='normal'?'':' warn')+'">'+(mode==='normal'?'Normal':mode==='mimic'?'Drug: imitates':'Drug: floods / blocks')+'</span><h4>'+title+'</h4><p>'+body+'</p>';
+    var r=$('#synResult');r.textContent=t.result;r.className='result'+(mode==='normal'?' good':' warn')}
+  function syncBtns(){$$('#synParts button').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-p')===part?'true':'false')})}
+  Object.keys(NAMES).forEach(function(k){var b=el('button','',NAMES[k]);b.type='button';b.setAttribute('data-p',k);b.setAttribute('aria-pressed','false');
+    b.onclick=function(){part=k;draw();show();syncBtns()};$('#synParts').appendChild(b)});
+  $$('.modes button').forEach(function(b){b.addEventListener('click',function(){
+    mode=b.getAttribute('data-mode');$$('.modes button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});draw();show()})});
+  draw();show();
+})();
+
+/* M4 matching */
+(function(){
+  var P=[['stim','Stimulants','Generally increase nervous system activity'],['dep','Depressants','Generally reduce nervous system activity'],['opi','Opioids','Reduce pain and can dangerously slow breathing at high doses'],['can','Cannabis','Can affect memory, attention and coordination']];
+  register('match');
+  var L=$('#mL'),R=$('#mR'),selL=null,selR=null,matched=0,order;
+  function build(){
+    L.innerHTML='';R.innerHTML='';matched=0;selL=selR=null;$('#mMsg').textContent='';
+    order=shuffle(P);
+    P.forEach(function(p){var b=el('button','mbtn');b.type='button';b.textContent=p[1];b.setAttribute('data-id',p[0]);b.onclick=function(){if(b.classList.contains('done'))return;
+      $$('.mbtn',L).forEach(function(x){x.classList.remove('sel')});b.classList.add('sel');selL=b;test()};L.appendChild(b)});
+    order.forEach(function(p){var b=el('button','mbtn');b.type='button';b.textContent=p[2];b.setAttribute('data-id',p[0]);b.onclick=function(){if(b.classList.contains('done'))return;
+      $$('.mbtn',R).forEach(function(x){x.classList.remove('sel')});b.classList.add('sel');selR=b;test()};R.appendChild(b)})}
+  function test(){
+    if(!selL||!selR)return;
+    var a=selL,b=selR;
+    if(a.getAttribute('data-id')===b.getAttribute('data-id')){
+      a.classList.remove('sel');b.classList.remove('sel');a.classList.add('done');b.classList.add('done');matched++;
+      $('#mMsg').textContent=matched+' of 4 matched.';
+      if(matched===4){$('#mMsg').textContent='All four matched. Well done.';complete('match')}
+    }else{
+      a.classList.add('bad');b.classList.add('bad');$('#mMsg').textContent='Not a match. Think about what each drug type does.';
+      setTimeout(function(){a.classList.remove('bad','sel');b.classList.remove('bad','sel')},700)}
+    selL=selR=null}
+  $('#mReset').addEventListener('click',build);build();
+})();
+
+/* M5 case */
+(function(){
+  register('case');
+  var KEYS=[[/slow|reduc|decreas|less|depress/i,'reduced or slowed activity'],[/breath/i,'breathing'],[/drows|sleep|sedat|tired/i,'drowsiness'],[/react|speech|speak|respon|slur/i,'slow reactions or speech'],[/brain|nervous|neuron|neurotransmit|receptor|synapse|opioid/i,'a link to the brain or nervous system']];
+  $('#caseGo').addEventListener('click',function(){
+    var pick=document.querySelector('input[name="case"]:checked');var hint=$('#caseHint');var out=$('#caseOut');
+    if(!pick){hint.textContent='Choose an explanation first.';return}
+    var why=$('#reason').value.trim();
+    if(why.length<8){hint.textContent='Add a short reason using the clues.';return}
+    hint.textContent='';
+    var ok=pick.value==='A';
+    var found=[],miss=[];KEYS.forEach(function(k){(k[0].test(why)?found:miss).push(k[1])});
+    var h='<div class="result '+(ok?'good':'warn')+'" style="margin-top:16px"><b>'+(ok?'Well reasoned. The best explanation is A.':'Look again. The best explanation is A.')+'</b>'
+     +'<p style="margin-top:6px">Drowsiness, slow speech, slow reactions and slow breathing all point to <b>reduced activity</b> in parts of the nervous system, including areas that control alertness and breathing. That pattern fits a depressant-like or opioid-like effect. Stimulants (B) would more likely raise activity, and cannabis (C) is mainly linked to memory, attention and coordination. We cannot be sure which substance it was, so the pill itself is unknown.</p></div>';
+    h+='<div class="card" style="margin-top:12px"><b>Your reasoning</b><div class="chips" style="margin-top:8px">'
+     +found.map(function(x){return '<span class="chip" style="background:var(--good-soft);border-color:var(--good)">✓ '+x+'</span>'}).join('')
+     +miss.map(function(x){return '<span class="chip">Consider: '+x+'</span>'}).join('')+'</div></div>';
+    h+='<div class="result warn"><b>What should relatives do?</b> Do not let him sleep it off. Slow, shallow breathing can be an emergency. Call emergency services (999 in Malaysia), stay with him, and tell them what he took if known.</div>';
+    out.innerHTML=h;out.hidden=false;complete('case')})
+})();
+
+/* Outline */
+(function(){
+  var O=[
+   ['Mission 1: Meet the Nervous System','CNS, PNS, brain, spinal cord, nerves, communication and coordination.','Interactive nervous system diagram; simple infographic.','Students click different parts of the diagram and identify their functions.'],
+   ['Mission 2: Follow the Neural Message','Neuron, dendrite, axon, synapse, neurotransmitters, receptors.','Animated neuron; synapse animation.','Students arrange the steps of neural communication in the correct order.'],
+   ['Mission 3: What Happens When Drugs Enter the System?','Drugs can interfere with neurotransmission, affect receptors and change brain activity. Changes in neural communication can affect behaviour and body functions.','Normal vs. drug-affected neuron diagram; short animation.','Students click parts of the diagram to discover what changes.'],
+   ['Mission 4: Identify the Drug Effect','Stimulants generally increase activity; depressants generally reduce it; opioids reduce pain and can dangerously slow breathing at high doses; cannabis can affect memory, attention and coordination.','Drug comparison cards; simple infographic.','Students match the drug type to its possible effect.'],
+   ['Mission 5: Return to the Case','Students return to the opening situation and use earlier missions to identify the possible nervous-system effect and explain their answer.','Case-study illustration.','Students choose the most likely explanation and give a short reason.'],
+   ['Mission 6: What Happens Over Time?','Tolerance, dependence, addiction, changes in brain function, effects on learning, memory and behaviour.','Simple brain infographic; short animation.','Students answer scenario-based questions.'],
+   ['Final Mission: Brain Challenge','Review the nervous system, neurons, neurotransmitters, drug effects, tolerance and addiction.','Quiz graphics.','Multiple-choice, True/False and immediate feedback.']];
+  var box=$('#outline');
+  O.forEach(function(o,i){var d=el('details','ol');if(i===0)d.open=true;
+    d.innerHTML='<summary>'+o[0]+'</summary><div class="body"><div><span class="eyebrow">Key concepts</span><br>'+o[1]+'</div><div><span class="eyebrow">Multimedia</span><br>'+o[2]+'</div><div><span class="eyebrow">Interactive feature</span><br>'+o[3]+'</div></div>';
+    box.appendChild(d)});
+})();
+})();
+</script>
+
+</body></html>
